@@ -1,0 +1,39 @@
+﻿@using TripLog
+@using TripLog.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model TripLog.Models.Trip
+
+@{
+    ViewData["Title"] = "Add Trip Destination And Dates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-controller="Trip" asp-action="Add" method="post">
+    <div class="form-group">
+        <label asp-for="Destination"></label>
+        <input asp-for="Destination" class="form-control" />
+        <span asp-validation-for="Destination" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Accommodation"></label>
+        <input asp-for="Accommodation" class="form-control" />
+        <span asp-validation-for="Accommodation" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StartDate"></label>
+        <input asp-for="StartDate" class="form-control" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EndDate"></label>
+        <input asp-for="EndDate" class="form-control" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+    <a asp-controller="Trip" asp-action="index" class="btn btn-secondary">Previous</a>
+    <button type="submit" class="btn btn-primary">Next</button>
+</form>

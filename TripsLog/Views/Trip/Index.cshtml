@@ -1,0 +1,85 @@
+﻿@using Newtonsoft.Json;
+@using TripLog
+@using TripLog.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<TripLog.Models.Trip>
+@{
+    ViewData["Title"] = "My Trip Log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var success = TempData["message"];
+    TempData.Remove("message");
+}
+
+<h1>@ViewData["Title"]</h1>
+<h3>@success</h3>
+<br class="row">
+    <div class="col-md-12">
+        <a asp-controller="Trip" asp-action="Add" class="btn btn-primary">Add Trip</a>
+    </div>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Destination</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Accommodation</th>
+            <th>Thing To Do</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if(TempData.ContainsKey("TripRows"))
+            {
+                try
+                {
+                    List<Trip> tripRows = JsonConvert.DeserializeObject<List<Trip>>(TempData.Peek("TripRows").ToString());
+                    foreach (Trip tripRow in tripRows)
+                    {
+                        <tr>
+                        <td>@tripRow.Destination</td>
+                        <td>@tripRow.StartDate.ToShortDateString()</td>
+                        <td>@tripRow.EndDate.ToShortDateString()</td>
+                            <td>
+                            @tripRow.Accommodation <br>
+                            @($"Phone: {tripRow.AccommodationPhone}") <br>
+                            @($"Email: {tripRow.AccommodationEmail}")
+                            </td>
+                            <td>
+                            @tripRow.ThingToDo1 <br>
+                            @tripRow.ThingToDo2 <br>
+                            @tripRow.ThingToDo3
+                            </td>
+                        </tr>
+                    }
+                }
+                catch(Exception e)
+                {
+                    <tr><td>@e.Message</td></tr>
+                }   
+            }
+
+            //String[] dests = TempData.ContainsKey("Destination") ? (String[])TempData.Peek("Destination") : new string[] { };
+            //String[] sdate = TempData.ContainsKey("StartDate") ? (String[])TempData.Peek("StartDate") : new string[] { };
+            //String[] edate = TempData.ContainsKey("EndDate") ? (String[])TempData.Peek("EndDate") : new string[] { };
+            //String[] acc = TempData.ContainsKey("Accommodation") ? (String[])TempData.Peek("Accommodation") : new string[] { };
+            //String[] ttd = TempData.ContainsKey("ThingToDo1") ? (String[])TempData.Peek("ThingToDo1") : new string[] { };
+
+            //int size = dests.Length;
+            //int i = 0;
+            //while(i < size)
+            //{
+            //    <tr>
+            //        <td>@dests[i]</td>
+            //        <td>@DateTime.Parse(sdate[i]).ToShortDateString()</td>
+            //        <td>@DateTime.Parse(edate[i]).ToShortDateString()</td>
+            //        <td>@acc[i]</td>
+            //        <td>@ttd[i]</td>
+            //    </tr>
+            //    i++;
+            //}
+        }
+    </tbody>
+</table>
+
+
